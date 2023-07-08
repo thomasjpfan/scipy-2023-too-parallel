@@ -3,7 +3,6 @@ use_katex: False
 class: title-slide
 
 # Can There Be Too Much Parallelism?
-## 🚃 🚒 🚕 🚑 🚄 🚌 🚗 🚜 🏎️ 🚙 🚁
 
 .larger[Thomas J. Fan]<br>
 <a href="https://www.github.com/thomasjpfan" target="_blank" class="title-link"><span class="icon icon-github right-margin"></span>@thomasjpfan</a>
@@ -968,7 +967,6 @@ class: center
 class: title-slide
 
 # Can There Be Too Much Parallelism?
-## 🚃 🚒 🚕 🚑 🚄 🚌 🚗 🚜 🏎️ 🚙 🚁
 
 .larger[Thomas J. Fan]<br>
 <a href="https://www.github.com/thomasjpfan" target="_blank" class="title-link"><span class="icon icon-github right-margin"></span>@thomasjpfan</a>
