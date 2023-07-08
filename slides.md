@@ -6,11 +6,11 @@ class: title-slide
 
 .larger[Thomas J. Fan]<br>
 <a href="https://www.github.com/thomasjpfan" target="_blank" class="title-link"><span class="icon icon-github right-margin"></span>@thomasjpfan</a>
-<a class="this-talk-link", href="https://github.com/thomasjpfan/scipy-2023-too-much-parallelism" target="_blank">
+<a class="this-talk-link", href="https://github.com/thomasjpfan/scipy-2023-too-parallel" target="_blank">
 
 ![:scale 15%](images/QuansightLabs_logo_V2.png)
 
-This talk on Github: thomasjpfan/scipy-2023-too-much-parallelism</a>
+This talk on Github: thomasjpfan/scipy-2023-too-parallel</a>
 
 ---
 
@@ -143,7 +143,7 @@ class: center
 from threadpoolctl import threadpool_limits
 import numpy as np
 
-*with threadpool_limits(limits=2, user_api='blas'):
+*with threadpool_limits(limits=2):
     a = np.random.randn(1000, 1000)
     a_squared = a @ a
 ```
@@ -596,7 +596,7 @@ out = A_array @ B_array
 ```python
 from threadpoolctl import threadpool_limits
 
-with threadpool_limits(limits=1, user_api='blas'):
+with threadpool_limits(limits=1):
     out = A_array @ B_array
 ```
 ]
@@ -647,7 +647,7 @@ class: top
 - `threadpoolctl`
 
 ```python
-with threadpool_limits(limits=2, user_api="openmp"):
+with threadpool_limits(limits=2):
     out = torch.sum(A_tensor, axis=1)
 ```
 
@@ -794,7 +794,7 @@ log_reg.predict(X)
 - `threadpoolctl`
 
 ```python
-*with threadpool_limits(limits=2, user_api='blas'):
+*with threadpool_limits(limits=2):
     log_reg.predict(X)
 ```
 ]
@@ -854,7 +854,7 @@ hist.fit(X, y)
 - `threadpoolctl`
 
 ```python
-*with threadpool_limits(limits=2, user_api='openmp'):
+*with threadpool_limits(limits=2):
     hist.predict(X)
 ```
 ]
@@ -970,8 +970,8 @@ class: title-slide
 
 .larger[Thomas J. Fan]<br>
 <a href="https://www.github.com/thomasjpfan" target="_blank" class="title-link"><span class="icon icon-github right-margin"></span>@thomasjpfan</a>
-<a class="this-talk-link", href="https://github.com/thomasjpfan/scipy-2023-too-much-parallelism" target="_blank">
+<a class="this-talk-link", href="https://github.com/thomasjpfan/scipy-2023-too-parallel" target="_blank">
 
 ![:scale 15%](images/QuansightLabs_logo_V2.png)
 
-This talk on Github: thomasjpfan/scipy-2023-too-much-parallelism</a>
+This talk on Github: thomasjpfan/scipy-2023-too-parallel</a>
