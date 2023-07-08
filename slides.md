@@ -41,9 +41,9 @@ class: center
 .g[
 .g-6[
 ## Parallelism in Scikit-learn
-- OpenBLAS
+- BLAS through SciPy
 - OpenMP
-- Python Multi-threading
+- Python Multi-Threading
 - Python Multi-Processing
 ]
 .g-6[
