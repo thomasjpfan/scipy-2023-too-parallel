@@ -446,6 +446,16 @@ class: top
 ---
 
 # Multiple Native threading libraries 🧵 + 🧶
+
+.center[
+![:scale 85%](images/pypi.jpg)
+]
+
+[Source](https://www.slideshare.net/RalfGommers/parallelism-in-a-numpybased-program)
+
+---
+
+# Multiple Native threading libraries 🧵 + 🧶
 ## CPU Waiting ⏳
 
 ```python
@@ -468,6 +478,16 @@ for n_iter in range(100):
 ![](images/conda-forge-square.png)
 ]
 ]
+
+---
+
+# Current Workaround  🩹
+
+.center[
+![:scale 65%](images/conda-forge.png)
+]
+
+[Source](https://www.slideshare.net/RalfGommers/parallelism-in-a-numpybased-program)
 
 ---
 
