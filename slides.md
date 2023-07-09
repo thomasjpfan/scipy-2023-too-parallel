@@ -42,7 +42,7 @@ class: center
 .g-6[
 ## Parallelism in Scikit-learn
 - BLAS through SciPy
-- OpenMP
+- OpenMP + Cython
 - Python Multi-Threading
 - Python Multi-Processing
 ]
@@ -104,7 +104,24 @@ class: center
 - **OpenMP**: `OMP_NUM_THREADS`
 - **MKL**: `MKL_NUM_THREADS`
 - **OpenBLAS**: `OPENBLAS_NUM_THREADS`
-- **Rust**: `RAYON_NUM_THREADS`
+]
+]
+.g-4[
+![](images/common_env.jpg)
+]
+]
+
+---
+
+.g.g-middle[
+.g-8[
+
+# Environment Variables 🌲
+
+.larger[
+- **OpenMP**: `OMP_NUM_THREADS`
+- **MKL**: `MKL_NUM_THREADS`
+- **OpenBLAS**: `OPENBLAS_NUM_THREADS`
 - **Polars**: `POLARS_MAX_THREADS`
 - **Numba**: `NUMBA_NUM_THREADS`
 - **macOS accelerate**: `VECLIB_MAXIMUM_THREADS`
@@ -189,21 +206,22 @@ import numpy as np
 
 class: top
 
-<br><br>
+<br><br><br><br>
+
+# Proposal: Consistent APIs 🔮
 
 .g[
-.g-8[
-
-# Proposal 🔮
-
-<br>
-
-## Common Environment Variable
-
-- Logistically: `OMP_NUM_THREADS`
+.g-6[
+## Now
+```
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export POLARS_MAX_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+```
 ]
-.g-4[
-![](images/common_env.jpg)
+.g-6[
 ]
 ]
 
@@ -211,22 +229,61 @@ class: top
 
 class: top
 
-<br><br>
+<br><br><br><br>
+
+# Proposal: Consistent APIs 🔮
 
 .g[
-.g-8[
-
-# Proposal 🔮
-
-<br>
-
-## Common Environment Variable
-
-- Logistically: `OMP_NUM_THREADS`
-- More Agonistic: `GOTO_NUM_THREADS` ☀️
+.g-6[
+## Now
+```
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export POLARS_MAX_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+```
 ]
-.g-4[
-![](images/common_env.jpg)
+.g-6[
+## Future 🚀
+### Pragmatic
+```
+export OMP_NUM_THREADS=1
+```
+]
+]
+
+---
+
+class: top
+
+<br><br><br><br>
+
+# Proposal: Consistent APIs 🔮
+
+.g[
+.g-6[
+## Now
+```
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export POLARS_MAX_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+```
+]
+.g-6[
+## Future 🚀
+### Pragmatic
+```
+export OMP_NUM_THREADS=1
+```
+
+### Better ☀️
+
+```
+export GOTO_NUM_THREADS=1
+```
 ]
 ]
 
@@ -244,8 +301,6 @@ class: top
 
 # Proposal 🔮
 
-## Agree on Keyword argument at call-sites ☎️
-
 .g[
 .g-6[
 ## Now
@@ -262,8 +317,6 @@ class: top
 
 # Proposal 🔮
 
-## Agree on Keyword argument at call-sites ☎️
-
 .g[
 .g-6[
 ## Now
@@ -273,7 +326,7 @@ class: top
 - **Python**: `max_workers`
 ]
 .g-6[
-## Future
+## Future 🚀
 - Everyone uses `workers`
 ]
 ]
@@ -295,14 +348,14 @@ class: center
 from scipy import optimize
 
 optimize.brute(
-    computation_that_uses_8_cores, ...
-    workers=8
+*    computation_that_uses_8_cores, ...
+*    workers=8
 )
 ```
 
 ---
 
-# Current workarounds
+# Current workarounds 🩹
 ## Dask ![:scale 10%](images/dask-logo.svg)
 
 ![:scale 80%](images/dask-oversub.jpg)
@@ -330,10 +383,10 @@ dl = DataLoader(..., num_workers=8)
 # torch/utils/data/_utils/worker.py
 def _worker_loop(...):
     ...
-    torch.set_num_threads(1)
+*   torch.set_num_threads(1)
 ```
 ]
-.g-4[
+.g-4.center[
 ![](images/pytorch.tiff)
 ]
 ]
@@ -342,45 +395,27 @@ def _worker_loop(...):
 
 ---
 
-# Proposal: Consistent APIs 🔮
+# scikit-learn
 
-.g[
-.g-6[
-## Now
-```
-export OMP_NUM_THREADS=1
-export MKL_NUM_THREADS=1
-export OPENBLAS_NUM_THREADS=1
-export OMP_NUM_THREADS=1
-export RAYON_NUM_THREADS=1
-export NUMEXPR_NUM_THREADS=1
+.g.g-middle[
+.g-8[
+```python
+from sklearn.experimental import enable_halving_search_cv
+from sklearn.model_selection import HalvingGridSearchCV
+from sklearn.ensemble import HalvingRandomSearchCV
+
+*clf = HistGradientBoostingClassifier()
+search = HalvingGridSearchCV(
+    clf,
+    param_distributions,
+*   n_jos=8
+)
+
+search.fit(X, y)
 ```
 ]
-.g-6[
-]
-]
-
----
-
-# Proposal: Consistent APIs 🔮
-
-.g[
-.g-6[
-## Now
-```
-export OMP_NUM_THREADS=1
-export MKL_NUM_THREADS=1
-export OPENBLAS_NUM_THREADS=1
-export OMP_NUM_THREADS=1
-export RAYON_NUM_THREADS=1
-export NUMEXPR_NUM_THREADS=1
-```
-]
-.g-6[
-## Future
-```
-export GOTO_NUM_THREADS=1
-```
+.g-4.center[
+![:scale 90%](images/scikit-learn-better.svg)
 ]
 ]
 
@@ -504,14 +539,11 @@ class: top
 ## Not a full solution 🩹
 
 .g.g-center.g-middle[
-.g-4[
-![](images/polars.tiff)
+.g-6[
+![:scale 70%](images/polars.tiff)
 ]
-.g-4[
-![](images/opencv.tiff)
-]
-.g-4[
-![:scale 50%](images/scipy.svg)
+.g-6[
+![:scale 30%](images/scipy.svg)
 ]
 ]
 
@@ -670,6 +702,29 @@ class: top
 with threadpool_limits(limits=2):
     out = torch.sum(A_tensor, axis=1)
 ```
+]
+.g-4.center[
+![](images/pytorch.tiff)
+]
+]
+
+---
+
+class: top
+
+<br><br>
+
+# PyTorch (Configuration)
+
+.g[
+.g-8[
+- Environment variable: `OMP_NUM_THREADS`
+- `threadpoolctl`
+
+```python
+with threadpool_limits(limits=2):
+    out = torch.sum(A_tensor, axis=1)
+```
 
 - PyTorch function
 
@@ -698,6 +753,7 @@ class: top
 ```python
 import pandas as pd
 df = pd.DataFrame(np.random.randn(10_000, 100))
+roll = df.rolling(100)
 
 *out = roll.mean()
 ```
@@ -725,6 +781,7 @@ class: top
 import pandas as pd
 
 df = pd.DataFrame(np.random.randn(10_000, 100))
+roll = df.rolling(100)
 
 out = roll.mean(
 *    engine="numba",
@@ -743,6 +800,27 @@ out = roll.mean(
 .success.bold.center[🏎️ All Cores 🏎️]
 
 ---
+
+class: top
+
+<br><br><br><br>
+
+# pandas apply + numba (Configuration)
+
+.g[
+.g-8[
+- Environment variable: `NUMBA_NUM_THREADS`
+]
+.g-4.center[
+![](images/pandas-logo.tiff)
+]
+]
+
+---
+
+class: top
+
+<br><br><br><br>
 
 # pandas apply + numba (Configuration)
 
@@ -766,6 +844,7 @@ out = roll.mean(engine="numba", engine_kwargs={"parallel": True})
 
 ---
 
+
 class: top
 
 <br><br><br>
@@ -778,7 +857,7 @@ class: top
 from sklearn.linear_model import LogisticRegression
 log_reg = LogisticRegression().fit(...)
 
-log_reg.predict(X)
+*log_reg.predict(X)
 ```
 ]
 .g-4.center[
